@@ -10,6 +10,6 @@ describe('My First Test', () => {
     cy.visit('/')
     cy.get('#login').click()
     cy.wait(2000)
-    cy.request('/home')
+    cy.request('/codes')
   })
 })
