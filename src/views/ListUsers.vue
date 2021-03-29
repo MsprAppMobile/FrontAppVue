@@ -53,7 +53,14 @@
           <th scope="col">#</th>
           <th scope="col">Pseudo</th>
           <th scope="col">Mail</th>
+          <th scope="col">Telephone</th>
+          <th scope="col">Genre</th>
+          <th scope="col">Code Postale</th>
+          <th scope="col">Ville</th>
+          <th scope="col">Adresse</th>
+          <th scope="col">Complément d'Adresse</th>
           <th scope="col">Admin</th>
+          <th scope="col">Modification Role</th>
         </tr>
       </thead>
       <tbody>
@@ -61,9 +68,19 @@
           <tD>{{ user.id }}</tD>
           <td>{{ user.pseudo }}</td>
           <td>{{ user.mail }}</td>
-          <td>
-            <input type="checkbox" name="isAdmin" v-model="users.roles" />
+          <td>{{ user.telephone }}</td>
+          <td>{{ user.genre }}</td>
+          <td>{{ user.codeP }}</td>
+          <td>{{ user.ville }}</td>
+          <td>{{ user.adresse }}</td>
+          <td>{{ user.complementAdresse }}</td>
+          <td v-if="user.role == 'admin'">
+            <input type="checkbox" name="isAdmin" checked @click="changeRole(user.id,$event)" />
           </td>
+          <td v-if="user.role == 'user'">
+            <input type="checkbox" name="isAdmin" @click="changeRole(user.id,$event)"/>
+          </td>
+          <td><button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="updateRole(user.id)">Modifier role</button></td>
         </tr>
       </tbody>
     </table>
@@ -93,6 +110,40 @@ export default {
       localStorage.clear();
       this.$router.push({ path: "/" });
     },
+    changeRole(id,event){
+      var index = null
+      this.users.forEach(user => {
+          if(user.id==id){
+              index = this.users.indexOf(user);
+              console.log(index)
+          }
+      });
+      if(event.target.checked){
+        this.users[parseInt(index)].role = "admin"
+      }else{
+        this.users[parseInt(index)].role = "user"
+      }
+    },
+    updateRole(id){
+      var user_to_update = null;
+      this.users.forEach(user => {
+          if(user.id==id){
+              user_to_update = user;
+          }
+      });
+      
+      axios.
+      put("http://127.0.0.1:5001/user/"+id,{
+        "role":user_to_update.role
+      },this.config)
+      .then(
+          alert("Le role de "+user_to_update.pseudo+" a bien été modifié")
+      )
+      .catch( error=>{
+          console.log(error)
+          alert("Erreur lors de la modification.")
+      })
+    } 
   },
   async beforeMount() {
     if (!localStorage.getItem("token")) {

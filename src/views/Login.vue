@@ -81,7 +81,8 @@ export default {
       if (!this.pseudo) {
         this.errors.push("Pseudo manquant.");
         alert("Pseudo manquant.");
-      } else if (!this.checkPseudo(this.pseudo)) {
+      } 
+      else if (!this.checkPseudo(this.pseudo)) {
         this.errors.push("Identifiant ou mot de passe incorrect.");
         alert("Identifiant ou mot de passe incorrect.");
       }
@@ -103,23 +104,22 @@ export default {
         })
         .then((response) => {
           let token = response.data;
-          console.log(response.data);
-          localStorage.setItem("token", token);
-          console.log(localStorage.getItem("token"));
           let tokenDecode = VueJwtDecode.decode(token);
-          if (tokenDecode["user_id"] == 2) {
-            alert("Vous n'avez pas les autorisations");
+          if (tokenDecode["role"] != "admin") {
+            alert("Vous n'avez pas les autorisations nécessaire pour accéder au site.");
             this.isLoggingIn = false;
             this.isAlertShow = false;
           } else {
+            localStorage.setItem("token", token);
             this.redirect();
           }
         })
         .catch((error) => {
           alert("Identifiant ou mot de passe incorrect");
           console.log(error);
-        })
-        .finally(() => console.log("ok"));
+          this.isLoggingIn = false;
+          this.isAlertShow = false;
+        });
     },
     checkPseudo(pseudo) {
       let regex = /^(\w+)$/;

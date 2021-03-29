@@ -126,9 +126,9 @@
                   v-model="category"
                 >
                   <option value="">--Choisissez une option (exemple)--</option>
-                  <option value="percentage">Pourcentage (-20%)</option>
-                  <option value="discount">Remise(-30€)</option>
-                  <option value="deal"> Affaire (3 pour le prix de 2)</option>
+                  <option value="pourcentage">Pourcentage (-20%)</option>
+                  <option value="remise">Remise(-30€)</option>
+                  <option value="affaire"> Affaire (3 pour le prix de 2)</option>
                   <option value="pack">Pack (2 pour 3€)</option>
                 </select>
               </div>
