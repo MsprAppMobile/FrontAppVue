@@ -151,8 +151,6 @@
 </template>
 <script>
 import axios from "axios";
-import VueJwtDecode from "vue-jwt-decode";
-import md5 from "js-md5";
 
 export default {
   name: "Create",
@@ -201,23 +199,7 @@ export default {
         return;
       }
 
-      var hashedMessage = md5("GoStyle");
-      var timestamp = new Date().toLocaleDateString("fr-FR", {
-        timeZone: "Europe/Luxembourg",
-      });
-      timestamp =
-        timestamp +
-        new Date().toLocaleTimeString("fr-FR", {
-          timeZone: "Europe/Luxembourg",
-        });
-      timestamp = timestamp
-        .replace("/", "")
-        .replace("/", "")
-        .replace(":", "")
-        .replace(":", "");
-      let tokenDecode = VueJwtDecode.decode(this.config.headers.token);
-      var user_id = tokenDecode["user_id"];
-      this.valueQrCode = hashedMessage + ";" + timestamp + "_" + user_id;
+      
       axios
         .post(
           "http://127.0.0.1:5000/codes",
@@ -227,7 +209,6 @@ export default {
             is_unique: this.unique,
             category: this.category,
             expiration_date: this.date,
-            identifiant_QRCode: this.valueQrCode,
             image: this.imglink,
             value: this.value,
           },
@@ -239,8 +220,9 @@ export default {
           this.$router.push({ path: "/save" });
         })
         .catch((error) => {
-          console.log(error);
-          alert("Une erreur est survenue pendant la création de votre code.");
+          
+          alert(error.response.data)
+          
         });
     },
     deconnection() {
