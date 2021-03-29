@@ -92,21 +92,23 @@ export default {
             return "NON";
         },
         suppressionCode(id){
-            var index = null
-            this.codes.forEach(code => {
-                if(code.id==id){
-                    index = this.codes.indexOf(index);
-                }
-            });
-            axios.
-            delete("http://127.0.0.1:5000/code/"+id,this.config)
-            .then(
-                this.codes.splice(index)
-            )
-            .catch( error=>{
-                console.log(error)
-                alert("Erreur lors de la suppression.")
-            })
+            if(confirm("Vous vous apprétez à supprimer un code promotionel")){
+                var index = null
+                this.codes.forEach(code => {
+                    if(code.id==id){
+                        index = this.codes.indexOf(code);
+                    }
+                });
+                axios.
+                delete("http://172.16.18.27:5000/code/"+id,this.config)
+                .then(
+                    this.codes.splice(index,1)
+                )
+                .catch( error=>{
+                    console.log(error)
+                    alert("Erreur lors de la suppression.")
+                })
+            }
         },
         deconnection(){
             localStorage.clear()
@@ -124,7 +126,7 @@ export default {
             return
         }
         try{
-            await axios.get('http://127.0.0.1:5000/codes',this.config)
+            await axios.get('http://172.16.18.27:5000/codes',this.config)
             .then(res => {
                 this.codes = res.data
             })

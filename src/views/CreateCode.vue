@@ -202,7 +202,7 @@ export default {
       
       axios
         .post(
-          "http://127.0.0.1:5000/codes",
+          "http://172.16.18.27:5000/codes",
           {
             name: this.name,
             description: this.description,

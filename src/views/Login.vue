@@ -98,7 +98,7 @@ export default {
       this.isLoggingIn = true;
       this.isAlertShow = true;
       axios
-        .post("http://127.0.0.1:5001/login", {
+        .post("http://172.16.18.27:5001/login", {
           pseudo: this.pseudo,
           password: this.password,
         })

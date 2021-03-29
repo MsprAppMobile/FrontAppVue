@@ -133,7 +133,7 @@ export default {
       });
       
       axios.
-      put("http://127.0.0.1:5001/user/"+id,{
+      put("http://172.16.18.27:5001/user/"+id,{
         "role":user_to_update.role
       },this.config)
       .then(
@@ -153,7 +153,7 @@ export default {
     }
     try {
       await axios
-        .get("http://127.0.0.1:5001/users", this.config)
+        .get("http://172.16.18.27:5001/users", this.config)
         .then((res) => {
           this.users = res.data;
         })
